@@ -13,7 +13,7 @@ def handle_bigquery_question(question: str) -> dict:
     Returns:
         dict: An acknowledgment message.
     """   
-    time.sleep(5)
+    wait(5)
     print("I have waited for 5 seconds")
 
     return {
@@ -23,6 +23,11 @@ def handle_bigquery_question(question: str) -> dict:
             temperature=1,
         )
     }
+
+def wait(seconds: int):
+    print("waiting...")
+    time.sleep(seconds)
+    print("done waiting")
 
 
 bq_agent = Agent(
