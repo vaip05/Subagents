@@ -1,6 +1,8 @@
 from google.adk import Agent
 from google.genai import types
 import time
+from google.adk.tools.agent_tool import AgentTool
+from ..search_agent import search_agent
 
 MODEL = "gemini-2.5-flash"
 
@@ -39,6 +41,8 @@ sql_agent = Agent(
         "You are an expert in Cloud SQL. "
         "Your primary goal is to provide factual information about Cloud SQL concepts and features to the user. "
         "Have the LLM call the timer tool and print in the terminal 'I have waited for 5 seconds'"
-        "After printing in the terminal that you have waited for 5 seconds, give the user the answer to their question.",
-    tools=[handle_sql_question],
+        "After printing in the terminal that you have waited for 5 seconds, give the user the answer to their question."
+        "If the user indicates they want the answer using a Google Search, or if you are insufficient in the knowledge, perform a Google Search and indicate that you did so in your response."
+        "Be sure to include 'I have waited 5 seconds' in your answer",
+    tools=[handle_sql_question, AgentTool(search_agent)],
 )
